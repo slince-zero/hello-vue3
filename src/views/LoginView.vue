@@ -12,7 +12,7 @@
           <el-input v-model="form.name" />
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="form.password" />
+          <el-input type="password" v-model="form.password" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit(formRef)">login</el-button>
@@ -25,9 +25,11 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { FormInstance } from 'element-plus'
+import router from '@/router'
+import { ElMessage } from 'element-plus'
 const form = ref({
-  name: '',
-  password: '',
+  name: 'admin',
+  password: '123456',
 })
 
 const formRef = ref<FormInstance>()
@@ -36,10 +38,25 @@ const rules = reactive({
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 })
 
-const onSubmit = (form: FormInstance) => {
-  form.validate((valid, fileds) => {
+const open = () => {
+  ElMessage({
+    message: '登录成功',
+    grouping: true,
+    type: 'success',
+    duration: 1000,
+  })
+}
+
+const onSubmit = (formEl: FormInstance) => {
+  console.log(formRef.value)
+
+  formEl.validate((valid, fileds) => {
+    if (!valid) return
+
     if (valid) {
-      console.log('登录成功')
+      console.log(form.value.name)
+      router.push('/home')
+      open()
     } else {
       console.log('登录失败', fileds)
     }
