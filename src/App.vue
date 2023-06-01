@@ -8,10 +8,11 @@
   margin: 0;
 }
 html,
-body {
+body,
+#app,
+.wrapper {
+  width: 100%;
   height: 100%;
-}
-#app {
-  height: 100%;
+  overflow: hidden;
 }
 </style>

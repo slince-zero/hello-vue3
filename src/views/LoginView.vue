@@ -1,20 +1,30 @@
 <template>
-  <div class="login-container">
-    <div class="login-content">
+  <div class="login-wrap">
+    <div class="ms-login">
+      <div class="ms-title">后台管理系统</div>
       <el-form
         ref="formRef"
         :model="form"
         :rules="rules"
-        label-width="auto"
+        label-width="0px"
+        class="ms-content"
         hide-required-asterisk="false"
       >
-        <el-form-item label="用户名" prop="name" style="color: brown">
-          <el-input v-model="form.name" />
+        <el-form-item prop="name" style="color: brown">
+          <el-input v-model="form.name">
+            <template #prepend>
+              <el-button :icon="User"></el-button>
+            </template>
+          </el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="form.password" />
+        <el-form-item prop="password">
+          <el-input type="password" v-model="form.password">
+            <template #prepend>
+              <el-button :icon="Lock"></el-button>
+            </template>
+          </el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item class="login-btn">
           <el-button type="primary" @click="onSubmit(formRef)">login</el-button>
         </el-form-item>
       </el-form>
@@ -27,6 +37,7 @@ import { ref, reactive } from 'vue'
 import { FormInstance } from 'element-plus'
 import router from '@/router'
 import { ElMessage } from 'element-plus'
+import { Lock, User } from '@element-plus/icons-vue'
 const form = ref({
   name: 'admin',
   password: '123456',
@@ -64,29 +75,42 @@ const onSubmit = (formEl: FormInstance) => {
 }
 </script>
 
-<style>
-.login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  background: url('../assets/bgc.jpg');
-}
-.login-content {
-  height: 300px;
-  width: 400px;
-  border-radius: 5px;
-  /* background-color: grey; */
-  backdrop-filter: blur(15px);
-}
-.el-form {
-  margin-top: 80px;
-}
-.el-button {
+<style scoped>
+.login-wrap {
+  position: relative;
   width: 100%;
-  margin: 10px 0 0 55px;
+  height: 100%;
+  background: url(../assets/bgc.jpg);
+  /* background-size: 100%; */
 }
-.el-form-item__label {
-  color: #d1dbe5;
+
+.ms-title {
+  width: 100%;
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+.ms-login {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 350px;
+  margin: -190px 0 0 -175px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+}
+.ms-content {
+  padding: 30px 30px;
+}
+.login-btn {
+  text-align: center;
+}
+.login-btn button {
+  width: 100%;
+  height: 36px;
+  margin-bottom: 10px;
 }
 </style>
