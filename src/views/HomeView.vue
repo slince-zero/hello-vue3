@@ -1,11 +1,11 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <el-aside>
-        <SidebarMenu></SidebarMenu>
-      </el-aside>
+      <el-header>Header</el-header>
       <el-container>
-        <el-header>Header</el-header>
+        <el-aside width="200px">
+          <SidebarMenu />
+        </el-aside>
         <el-main>Main</el-main>
       </el-container>
     </el-container>

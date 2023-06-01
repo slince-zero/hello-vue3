@@ -1,52 +1,147 @@
 <template>
-  <el-row class="tac">
-    <el-col :span="20">
-      <el-menu
-        active-text-color="#ffd04b"
-        background-color="#545c64"
-        class="el-menu-vertical-demo"
-        default-active="2"
-        text-color="#fff"
-        @open="handleOpen"
-        @close="handleClose"
-      >
-        <el-sub-menu index="1">
-          <template #title>
-            <el-icon><location /></el-icon>
-            <span>Navigator One</span>
-          </template>
-          <el-menu-item-group title="Group One">
-            <el-menu-item index="1-1">item one</el-menu-item>
-            <el-menu-item index="1-2">item two</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="Group Two">
-            <el-menu-item index="1-3">item three</el-menu-item>
-          </el-menu-item-group>
-          <el-sub-menu index="1-4">
-            <template #title>item four</template>
-            <el-menu-item index="1-4-1">item one</el-menu-item>
+  <div class="sidebar">
+    <el-menu
+      class="sidebar-el-menu"
+      text-color="#bfcbd9"
+      background-color="#324157"
+    >
+      <template v-for="item in items">
+        <template v-if="item.subs">
+          <el-sub-menu :index="item.index" :key="item.index">
+            <template #title>
+              <el-icon>
+                <component :is="item.icon"></component>
+              </el-icon>
+              <span>{{ item.title }}</span>
+            </template>
+            <template v-for="subItem in item.subs">
+              <el-sub-menu
+                v-if="subItem.subs"
+                :index="subItem.index"
+                :key="subItem.index"
+              >
+                <template #title>{{ subItem.title }}</template>
+                <el-menu-item
+                  v-for="(threeItem, i) in subItem.subs"
+                  :key="i"
+                  :index="threeItem.index"
+                >
+                  {{ threeItem.title }}
+                </el-menu-item>
+              </el-sub-menu>
+              <el-menu-item>
+                {{ subItem.title }}
+              </el-menu-item>
+            </template>
           </el-sub-menu>
-        </el-sub-menu>
-        <el-menu-item index="2">
-          <el-icon><icon-menu /></el-icon>
-          <span>Navigator Two</span>
-        </el-menu-item>
-
-        <el-menu-item index="4">
-          <el-icon><setting /></el-icon>
-          <span>Navigator Four</span>
-        </el-menu-item>
-      </el-menu>
-    </el-col>
-  </el-row>
+        </template>
+        <template v-else>
+          <el-menu-item :index="item.index" :key="item.index">
+            <el-icon>
+              <component :is="item.icon"></component>
+            </el-icon>
+            <template #title>{{ item.title }}</template>
+          </el-menu-item>
+        </template>
+      </template>
+    </el-menu>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { Menu as IconMenu, Location, Setting } from '@element-plus/icons-vue'
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+const items = [
+  {
+    icon: 'Odometer',
+    index: '/home',
+    title: '系统首页',
+  },
+  {
+    icon: 'Calender',
+    index: '1',
+    title: '表格相关',
+    subs: [
+      {
+        index: '/table',
+        title: '常用表格',
+      },
+      {
+        index: '/import',
+        title: '导入表格',
+      },
+      {
+        index: '/export',
+        title: '导出EXCEL',
+      },
+    ],
+  },
+  {
+    icon: 'DocumentCopy',
+    index: '/tabs',
+    title: 'tab选项卡',
+  },
+  {
+    icon: 'Edit',
+    index: '3',
+    title: '表单相关',
+    subs: [
+      {
+        index: '/form',
+        title: '基本表单',
+      },
+      {
+        index: '/upload',
+        title: '文件上传',
+      },
+      {
+        index: '4',
+        title: '基本表单',
+        subs: [
+          {
+            index: '/editor',
+            title: '富文本编辑器',
+          },
+          {
+            index: '/markdown',
+            title: 'markdown编辑器',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    icon: 'Setting',
+    index: '/icon',
+    title: '自定义图标',
+  },
+  {
+    icon: 'PieChart',
+    index: '/charts',
+    title: '图表相关',
+  },
+  {
+    icon: 'CoffeeCup',
+    index: '/donate',
+    title: '请我喝咖啡',
+  },
+]
 </script>
+
+<style scoped>
+.sidebar {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 70px;
+  bottom: 0;
+  overflow-y: scroll;
+}
+.sidebar::-webkit-scrollbar {
+  width: 0;
+}
+.sidebar-el-menu:not(.el-menu--collapse) {
+  width: 250px;
+}
+.sidebar > ul {
+  height: 100%;
+}
+</style>

@@ -1,9 +1,15 @@
-import { createStore } from 'vuex'
+import { defineStore } from 'pinia'
 
-export default createStore({
-  state: {},
+export const useSidebarStore = defineStore('sidebar', {
+  state: () => {
+    return {
+      collapse: false,
+    }
+  },
   getters: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  actions: {
+    handleCollapse() {
+      this.collapse = !this.collapse
+    },
+  },
 })
